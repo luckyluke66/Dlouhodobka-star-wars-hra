@@ -9,7 +9,6 @@ pygame.mixer.init()
 
 WIDTH, HEIGHT = 900, 500
 
-menu = 3
 # barvy v RGB
 RED = (255, 0, 0)
 LIGHT_BLUE = (135,206,235)
