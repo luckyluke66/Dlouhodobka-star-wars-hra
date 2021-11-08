@@ -32,39 +32,39 @@ XWING_HIT = pygame.USEREVENT + 2
 
 WINNER_FONT = pygame.font.SysFont('FR73 Pixel', 100)
 # zvukove efekty
-FIRE_SOUND = pygame.mixer.Sound(os.path.join("DLOUHODOBKA",'blaster1.wav'))
-HIT_SOUND = pygame.mixer.Sound(os.path.join("DLOUHODOBKA",'mixkit-space-impact-774.wav'))
-EXPLOSION_SOUND = pygame.mixer.Sound(os.path.join("DLOUHODOBKA",'Explosion Sound Effect.wav'))
+FIRE_SOUND = pygame.mixer.Sound(os.path.join('blaster1.wav'))
+HIT_SOUND = pygame.mixer.Sound(os.path.join('mixkit-space-impact-774.wav'))
+EXPLOSION_SOUND = pygame.mixer.Sound(os.path.join('Explosion Sound Effect.wav'))
 
 
 # import vsech obrazku pomoci os
-SPACE = pygame.transform.scale(pygame.image.load(os.path.join("DLOUHODOBKA",'space.jpg')),(WIDTH, HEIGHT))
+SPACE = pygame.transform.scale(pygame.image.load(os.path.join('space.jpg')),(WIDTH, HEIGHT))
 
-X_WING_IMG = pygame.image.load(os.path.join("DLOUHODOBKA",'rebellion', 'Xwing.png'))
+X_WING_IMG = pygame.image.load(os.path.join('rebellion', 'Xwing.png'))
 X_WING = pygame.transform.rotate(pygame.transform.scale(X_WING_IMG, (60,60)), 0)
 
-Y_WING_IMG = pygame.image.load(os.path.join("DLOUHODOBKA",'rebellion', 'Ywing.png'))
+Y_WING_IMG = pygame.image.load(os.path.join('rebellion', 'Ywing.png'))
 Y_WING = pygame.transform.rotate(pygame.transform.scale(Y_WING_IMG, (60,60)), 0)
 
-FALCON_IMG = pygame.image.load(os.path.join("DLOUHODOBKA",'rebellion', 'MileniumFalcon.png'))
+FALCON_IMG = pygame.image.load(os.path.join('rebellion', 'MileniumFalcon.png'))
 FALCON = pygame.transform.rotate(pygame.transform.scale(FALCON_IMG, (60,60)), 270)
 
-HP_ICON_XWING_IMG = pygame.image.load(os.path.join("DLOUHODOBKA",'rebellion', 'rebel logo.png'))
+HP_ICON_XWING_IMG = pygame.image.load(os.path.join('rebellion', 'rebel logo.png'))
 HP_ICON_XWING = pygame.transform.rotate(pygame.transform.scale(HP_ICON_XWING_IMG, (40,40)), 0)
 
-TIE_IMG = pygame.image.load(os.path.join("DLOUHODOBKA",'empire', 'TieAdvanced.png'))
+TIE_IMG = pygame.image.load(os.path.join('empire', 'TieAdvanced.png'))
 TIE_ADVANCED = pygame.transform.rotate(pygame.transform.scale(TIE_IMG, (50,50)), 180)
 
-TIE_IMG = pygame.image.load(os.path.join("DLOUHODOBKA",'empire', 'TieFighter.png'))
+TIE_IMG = pygame.image.load(os.path.join('empire', 'TieFighter.png'))
 TIE_FIGHTER = pygame.transform.rotate(pygame.transform.scale(TIE_IMG, (50,50)), 180)
 
-TIE_IMG = pygame.image.load(os.path.join("DLOUHODOBKA",'empire', 'TieReaper.png'))
+TIE_IMG = pygame.image.load(os.path.join('empire', 'TieReaper.png'))
 TIE_REAPER = pygame.transform.rotate(pygame.transform.scale(TIE_IMG, (50,50)), 180)
 
-HP_ICON_TIE_IMG = pygame.image.load(os.path.join("DLOUHODOBKA",'empire', 'empire logo.png'))
+HP_ICON_TIE_IMG = pygame.image.load(os.path.join('empire', 'empire logo.png'))
 HP_ICON_TIE = pygame.transform.rotate(pygame.transform.scale(HP_ICON_TIE_IMG, (43,43)), 0)
 
-ICON = pygame.image.load(os.path.join("DLOUHODOBKA",'logovader.jpg'))
+ICON = pygame.image.load(os.path.join('logovader.jpg'))
 
 pygame.display.set_caption("star wars hra")
 pygame.display.set_icon(ICON)
