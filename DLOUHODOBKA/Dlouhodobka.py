@@ -2,6 +2,7 @@ import pygame
 import sys  # ukoncovani programu (neni nutne ale pygame v tomhle uplne spolehlivy neni)
 import os   # psani cest pro externi soubori
 import random
+
 # nasledujici 3 radky inicializuji pygamove fukce pro a) samotny pygame b) texty c) hudba a zvukove efekty
 pygame.init()
 pygame.font.init()
@@ -21,6 +22,11 @@ YELLOW = (255, 254, 0)
 FPS = 60
 LASER_SPEED = 7
 MAX_SHOTS = 3
+
+
+HEALTH_FONT = pygame.font.SysFont('8-BIT WONDER', 40)
+MENU_FONT = pygame.font.SysFont('8-BIT WONDER', 150)
+WINNER_FONT = pygame.font.SysFont('8-BIT WONDER', 100)
 
 done = 0
 
@@ -196,12 +202,57 @@ class Explosion(pygame.sprite.Sprite):
 
 explosion_group = pygame.sprite.Group()
 
+def restart():
+    Tie.__init__()
+    Xwing.__init__()
+    
+   
 def winner(text):
-    draw_text = WINNER_FONT.render(text, 1, WHITE)
+    draw_text = WINNER_FONT.render(text,1, WHITE)
     WIN.blit(draw_text, (WIDTH//2 - draw_text.get_width()//2, HEIGHT//2 - draw_text.get_height()//2 ))
     pygame.display.update()
+    pygame.time.delay(3000)
+    restart()
+    
+    
+def menu():
+    clock = pygame.time.Clock()
+    run_menu = True
+    while run_menu:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run_menu = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    game(done,WIN)
+                if event.key == pygame.K_q:
+                    run_menu = False
+                    break
+    
+    
+        
+        WIN.blit(SPACE, (0, 0))
+        menu_caption = MENU_FONT.render("MENU", 1, WHITE)
+        menu_play = HEALTH_FONT.render("Play (P)", 1, WHITE)
+        menu_options = HEALTH_FONT.render("Options (O)", 1, WHITE)
+        menu_quit = HEALTH_FONT.render("Quit (Q)", 1, WHITE)
 
-def game(done):
+        WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2, 100))
+        WIN.blit(menu_play, (WIDTH // 2 - menu_play.get_width()//2, 250))
+        WIN.blit(menu_options, (WIDTH // 2 - menu_options.get_width()//2, 300))
+        WIN.blit(menu_quit, (WIDTH//2 - menu_quit.get_width()//2, 350))
+
+        WIN.blit(Xwing.WING, (100, 200))
+        WIN.blit(Tie.TIE, (700, 200))
+
+
+        pygame.display.update()
+        
+    pygame.quit()
+    run_menu = True
+
+def game(done, WIN):
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -209,12 +260,14 @@ def game(done):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RCTRL and len(Tie.laser_tie) < MAX_SHOTS:
                     Tie.shoot_laser_tie()
 
                 if event.key == pygame.K_LCTRL and len(Xwing.laser_xwing) < MAX_SHOTS:
                     Xwing.shoot_laser_xwing()
+            
             if event.type == TIE_HIT:
                 Xwing.HP_xwing -= 1
                 HIT_SOUND.play()
@@ -260,7 +313,7 @@ def game(done):
                 explosion_group.add(explosion)
                 explosion_group.update()
                 done += 1
-            if Tie.HP_tie <= 0:
+            elif Tie.HP_tie <= 0:
                 explosion_group.draw(WIN)
                 explosion = Explosion(Tie.tie_rec.x, Tie.tie_rec.y)
                 explosion_group.add(explosion)
@@ -269,11 +322,10 @@ def game(done):
 
             if done >= 10:
                 winner(winner_text)
-                pygame.time.delay(3000)
-                break
-
-
+                menu()
+                #break
+                
         pygame.display.update()
     pygame.quit()
     sys.exit()
-game(done)
+menu()
