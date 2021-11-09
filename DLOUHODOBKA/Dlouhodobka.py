@@ -199,23 +199,62 @@ class Explosion(pygame.sprite.Sprite):
         if self.index >= len(self.images) - 1 and self.counter >=  explosion_speed:
             self.kill()
 
-
 explosion_group = pygame.sprite.Group()
 
 def restart():
     Tie.__init__()
     Xwing.__init__()
     
-   
 def winner(text):
     draw_text = WINNER_FONT.render(text,1, WHITE)
     WIN.blit(draw_text, (WIDTH//2 - draw_text.get_width()//2, HEIGHT//2 - draw_text.get_height()//2 ))
     pygame.display.update()
     pygame.time.delay(3000)
     restart()
-    
-    
+
+def indikator(poradnik):
+    vyska_indikatoru = 250 
+    if poradnik == 1:
+        vyska_indikatoru = 250
+    if poradnik == 2:
+        vyska_indikatoru = 300
+    if poradnik == 3:
+        vyska_indikatoru = 350
+    indikator = HEALTH_FONT.render("*", 1, WHITE)
+    WIN.blit(indikator, (370, vyska_indikatoru))
+
+    pass
+"""
+def options_submenu():
+    clock = pygame.time.Clock()
+    run_options = True
+    while run_options:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run_options = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    game(done,WIN)
+                if event.key == pygame.K_e:
+                    run_menu = False
+                    break
+                if event.key == pygame.K_o:
+                    options_submenu()
+       
+        menu_caption = MENU_FONT.render("OPTIONS", 1, WHITE)
+        menu_pl1 = HEALTH_FONT.render("Player 1 (Rebellion)", 1, WHITE)
+        menu_pl2 = HEALTH_FONT.render("Player 2 (Empire)", 1, WHITE)
+
+        WIN.blit(SPACE, (0, 0))
+        WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2, 100))
+        WIN.blit(menu_pl1, (WIDTH // 2 - menu_pl1.get_width()//2, 250))
+        WIN.blit(menu_pl2, (WIDTH // 2 - menu_pl2.get_width()//2, 300))
+        
+        pygame.display.update()
+"""    
 def menu():
+    poradnik = 1
     clock = pygame.time.Clock()
     run_menu = True
     while run_menu:
@@ -224,14 +263,21 @@ def menu():
             if event.type == pygame.QUIT:
                 run_menu = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
+                if event.key == pygame.K_SPACE and poradnik == 1:   # spusti hru
                     game(done,WIN)
-                if event.key == pygame.K_q:
+                if event.key == pygame.K_SPACE and poradnik == 2:   # nastaveni hry
+                    #options_submenu()
+                    pass
+                if event.key == pygame.K_SPACE and poradnik == 3:   # vypne program 
                     run_menu = False
                     break
-    
-    
-        
+                if event.key == pygame.K_UP and poradnik > 1:
+                    poradnik -= 1
+                    print(poradnik)
+                if event.key == pygame.K_DOWN and poradnik < 3:
+                    poradnik += 1
+                    print(poradnik)
+
         WIN.blit(SPACE, (0, 0))
         menu_caption = MENU_FONT.render("MENU", 1, WHITE)
         menu_play = HEALTH_FONT.render("Play (P)", 1, WHITE)
@@ -246,7 +292,7 @@ def menu():
         WIN.blit(Xwing.WING, (100, 200))
         WIN.blit(Tie.TIE, (700, 200))
 
-
+        indikator(poradnik)
         pygame.display.update()
         
     pygame.quit()
