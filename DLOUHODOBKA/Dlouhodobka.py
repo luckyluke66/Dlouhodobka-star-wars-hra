@@ -23,11 +23,9 @@ FPS = 60
 LASER_SPEED = 7
 MAX_SHOTS = 3
 
-
-HEALTH_FONT = pygame.font.SysFont('8-BIT WONDER', 40)
-MENU_FONT = pygame.font.SysFont('8-BIT WONDER', 150)
-WINNER_FONT = pygame.font.SysFont('8-BIT WONDER', 100)
-
+MENU_FONT = pygame.font.Font("8-BIT WONDER.ttf", 80)
+WINNER_FONT_N = pygame.font.Font("8-BIT WONDER.ttf", 50)
+HEALTH_FONT = pygame.font.Font('8-BIT WONDER.ttf', 20)
 done = 0
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -206,7 +204,7 @@ def restart():
     Xwing.__init__()
     
 def winner(text):
-    draw_text = WINNER_FONT.render(text,1, WHITE)
+    draw_text = WINNER_FONT_N.render(text,1, WHITE)
     WIN.blit(draw_text, (WIDTH//2 - draw_text.get_width()//2, HEIGHT//2 - draw_text.get_height()//2 ))
     pygame.display.update()
     pygame.time.delay(3000)
@@ -220,12 +218,17 @@ def indikator(poradnik):
         vyska_indikatoru = 300
     if poradnik == 3:
         vyska_indikatoru = 350
+    if poradnik == 4:
+        vyska_indikatoru = 400
     indikator = HEALTH_FONT.render("*", 1, WHITE)
-    WIN.blit(indikator, (370, vyska_indikatoru))
+    WIN.blit(indikator, (320, vyska_indikatoru))
 
+def choose_ship(title, ship1):
     pass
-"""
+    #zde bude funkce vyberu lodi dodelat pozdeji !
+
 def options_submenu():
+    options_orderer = 1
     clock = pygame.time.Clock()
     run_options = True
     while run_options:
@@ -234,25 +237,38 @@ def options_submenu():
             if event.type == pygame.QUIT:
                 run_options = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
-                    game(done,WIN)
-                if event.key == pygame.K_e:
-                    run_menu = False
-                    break
-                if event.key == pygame.K_o:
-                    options_submenu()
-       
+                if event.key == pygame.K_UP and options_orderer > 1:
+                    options_orderer -= 1
+                if event.key == pygame.K_DOWN and options_orderer < 3:
+                    options_orderer += 1
+                if event.key == pygame.K_SPACE and options_orderer == 1: 
+                    text_rebellion = 2
+                    ships_rebellion = 1  
+                    choose_ship(text_rebellion, ships_rebellion)
+                    
+                if event.key == pygame.K_SPACE and options_orderer == 2:   
+                    choose_ship(text_empire, ships_empire)
+                    text_empire = 1
+                    ships_empire = 2 
+                    
+                    # zde bude jedna funkce ktere passnu informace podle toho kterou lod vybirame pro obe varianty
+                if event.key == pygame.K_SPACE and options_orderer == 3:   
+                    menu()
+                  
+                    
         menu_caption = MENU_FONT.render("OPTIONS", 1, WHITE)
-        menu_pl1 = HEALTH_FONT.render("Player 1 (Rebellion)", 1, WHITE)
-        menu_pl2 = HEALTH_FONT.render("Player 2 (Empire)", 1, WHITE)
+        menu_pl1 = HEALTH_FONT.render("Player 1 ( Rebellion)", 1, WHITE)
+        menu_pl2 = HEALTH_FONT.render("Player 2 ( Empire)", 1, WHITE)
+        back = HEALTH_FONT.render("back", 1, WHITE)
 
         WIN.blit(SPACE, (0, 0))
         WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2, 100))
-        WIN.blit(menu_pl1, (WIDTH // 2 - menu_pl1.get_width()//2, 250))
-        WIN.blit(menu_pl2, (WIDTH // 2 - menu_pl2.get_width()//2, 300))
+        WIN.blit(menu_pl1, (WIDTH // 2 - 180, 250))
+        WIN.blit(menu_pl2, (WIDTH // 2 - 180, 300))
+        WIN.blit(back, (WIDTH // 2 - 180, 350))
         
         pygame.display.update()
-"""    
+   
 def menu():
     poradnik = 1
     clock = pygame.time.Clock()
@@ -266,28 +282,32 @@ def menu():
                 if event.key == pygame.K_SPACE and poradnik == 1:   # spusti hru
                     game(done,WIN)
                 if event.key == pygame.K_SPACE and poradnik == 2:   # nastaveni hry
-                    #options_submenu()
+                    options_submenu()
+                    run_menu = False
+                if event.key == pygame.K_SPACE and poradnik == 3:   # sekce kredits (napr. autori zvukovich souboru)
+                    #credits_submenu()
                     pass
-                if event.key == pygame.K_SPACE and poradnik == 3:   # vypne program 
+                if event.key == pygame.K_SPACE and poradnik == 4:   # vypne program 
                     run_menu = False
                     break
                 if event.key == pygame.K_UP and poradnik > 1:
                     poradnik -= 1
-                    print(poradnik)
-                if event.key == pygame.K_DOWN and poradnik < 3:
+                if event.key == pygame.K_DOWN and poradnik < 4:
                     poradnik += 1
-                    print(poradnik)
 
         WIN.blit(SPACE, (0, 0))
         menu_caption = MENU_FONT.render("MENU", 1, WHITE)
-        menu_play = HEALTH_FONT.render("Play (P)", 1, WHITE)
-        menu_options = HEALTH_FONT.render("Options (O)", 1, WHITE)
-        menu_quit = HEALTH_FONT.render("Quit (Q)", 1, WHITE)
+        menu_play = HEALTH_FONT.render("Play", 1, WHITE)
+        menu_options = HEALTH_FONT.render("Options", 1, WHITE)
+        menu_credits = HEALTH_FONT.render("Credits", 1, WHITE)
+        menu_quit = HEALTH_FONT.render("Quit", 1, WHITE)
+        
 
-        WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2, 100))
-        WIN.blit(menu_play, (WIDTH // 2 - menu_play.get_width()//2, 250))
-        WIN.blit(menu_options, (WIDTH // 2 - menu_options.get_width()//2, 300))
-        WIN.blit(menu_quit, (WIDTH//2 - menu_quit.get_width()//2, 350))
+        WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width() // 2, 80))
+        WIN.blit(menu_play, (WIDTH // 2 - 70, 250))
+        WIN.blit(menu_options, (WIDTH // 2 - 70, 300))
+        WIN.blit(menu_credits, (WIDTH // 2 - 70, 350))
+        WIN.blit(menu_quit, (WIDTH//2 - 70, 400))
 
         WIN.blit(Xwing.WING, (100, 200))
         WIN.blit(Tie.TIE, (700, 200))
@@ -354,14 +374,18 @@ def game(done, WIN):
             EXPLOSION_SOUND.play()
 
             if Xwing.HP_xwing <= 0:
+                x = Xwing.xwing_rec.x
+                y = Xwing.xwing_rec.y
                 explosion_group.draw(WIN)
-                explosion = Explosion(Xwing.xwing_rec.x, Xwing.xwing_rec.y)
+                explosion = Explosion(x,y )
                 explosion_group.add(explosion)
                 explosion_group.update()
                 done += 1
             elif Tie.HP_tie <= 0:
+                x = Tie.tie_rec.x
+                y = Tie.tie_rec.y
                 explosion_group.draw(WIN)
-                explosion = Explosion(Tie.tie_rec.x, Tie.tie_rec.y)
+                explosion = Explosion(x, y)
                 explosion_group.add(explosion)
                 explosion_group.update()
                 done += 1
@@ -369,7 +393,7 @@ def game(done, WIN):
             if done >= 10:
                 winner(winner_text)
                 menu()
-                #break
+                break
                 
         pygame.display.update()
     pygame.quit()
