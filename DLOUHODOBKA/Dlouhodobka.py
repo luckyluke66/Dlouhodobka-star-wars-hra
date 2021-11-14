@@ -26,7 +26,9 @@ MAX_SHOTS = 3
 MENU_FONT = pygame.font.Font("8-BIT WONDER.ttf", 80)
 WINNER_FONT_N = pygame.font.Font("8-BIT WONDER.ttf", 50)
 HEALTH_FONT = pygame.font.Font('8-BIT WONDER.ttf', 20)
+
 done = 0
+pointer = 1
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 BORDER = pygame.Rect(WIDTH//2-5, 0, 10, HEIGHT)
@@ -70,6 +72,14 @@ HP_ICON_TIE = pygame.transform.rotate(pygame.transform.scale(HP_ICON_TIE_IMG, (4
 
 ICON = pygame.image.load(os.path.join('logovader.jpg'))
 
+ARROW_IMG = pygame.image.load(os.path.join("arrow.png"))
+ARROW_LEFT = pygame.transform.scale(ARROW_IMG, (55,55))
+ARROW_RIGHT = pygame.transform.rotate(pygame.transform.scale(ARROW_IMG, (50,50)), 180 )
+ARROW_DOWN = pygame.transform.rotate(pygame.transform.scale(ARROW_IMG, (50,50)), 90 )
+
+RANDOM_IMG = pygame.image.load(os.path.join("random.png"))
+RANDOM = pygame.transform.scale(RANDOM_IMG, (50, 50))
+
 pygame.display.set_caption("star wars hra")
 pygame.display.set_icon(ICON)
 
@@ -77,6 +87,8 @@ class Tie:
     def __init__(self):
         self.SPEED = 5
         self.TIE = random.choice([TIE_FIGHTER,TIE_ADVANCED,TIE_REAPER])
+        self.empire_ships = [TIE_FIGHTER,TIE_ADVANCED,TIE_REAPER]
+        self.stats = {"fighter": {"hp" : 4, "speed" : 5, "damage" : 1 }}
         self.tie_rec = pygame.Rect(700, 200, 40, 40)
         self.laser_tie = []
         self.HP_tie = 4
@@ -127,6 +139,8 @@ class Xwing:
     def __init__(self):
         self.SPEED = 5
         self.WING = random.choice([X_WING, Y_WING, FALCON])
+        self.rebellion_ships = [X_WING, Y_WING, FALCON]
+        self.stats = {"xwing": {"hp" : 4, "speed" : 5, "damage" : 1 }}
         self.xwing_rec = pygame.Rect(100, 200, 60, 50)
         self.laser_xwing = []
         self.HP_xwing = 4
@@ -210,7 +224,7 @@ def winner(text):
     pygame.time.delay(3000)
     restart()
 
-def indikator(poradnik):
+def indikator(poradnik, width):
     vyska_indikatoru = 250 
     if poradnik == 1:
         vyska_indikatoru = 250
@@ -221,11 +235,72 @@ def indikator(poradnik):
     if poradnik == 4:
         vyska_indikatoru = 400
     indikator = HEALTH_FONT.render("*", 1, WHITE)
-    WIN.blit(indikator, (320, vyska_indikatoru))
+    WIN.blit(indikator, (width, vyska_indikatoru))
 
-def choose_ship(title, ship1):
-    pass
-    #zde bude funkce vyberu lodi dodelat pozdeji !
+def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
+    if pointer == 1 and number == 1:
+        Tie.TIE = shipone
+        pointerx = 100
+        ShipName = "X-Wing"
+    if pointer == 2 and number == 1:
+        Tie.TIE = shiptwo
+        pointerx = 300
+        ShipName = "Milenium Falcon"
+    if pointer == 3 and number == 1:
+        Tie.TIE = shipthree
+        pointerx = 500
+        ShipName = "Y-Wing"
+    if pointer == 4 and number == 1:
+        Tie.TIE = random.choice([shipone, shiptwo, shipthree])
+        pointerx = 700
+        ShipName = "Random"
+
+    if pointer == 1 and number == 0:
+        Xwing.WING = shipone
+        pointerx = 100
+    if pointer == 2 and number == 0:
+        Xwing.WING = shiptwo
+        pointerx = 300
+    if pointer == 3 and number == 0:
+        Xwing.WING = shipthree
+        pointerx = 500
+    if pointer == 4 and number == 0:
+        Xwing.WING = random.choice([shipone, shiptwo, shipthree])
+        pointerx = 700
+    
+    clock = pygame.time.Clock()
+    run_choose = True
+    while run_choose:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run_choose = False
+            if event.type ==pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    options_submenu()
+                    run_choose = False
+                if event.key == pygame.K_LEFT and pointer > 1:
+                    pointer -= 1
+                if event.key == pygame.K_RIGHT and pointer < 4:
+                    pointer += 1
+        
+        menu_caption = MENU_FONT.render("CHOOSE SHIP", 1, WHITE)
+        shipname = HEALTH_FONT.render((ShipName), 1, WHITE)
+    
+        WIN.blit(SPACE, (0, 0))
+        WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2, 10))
+        
+        WIN.blit(shipone, (100, 200))
+        WIN.blit(shiptwo, (300, 200))
+        WIN.blit(shipthree, (500, 200))
+        WIN.blit(RANDOM, (700,200))
+        
+        WIN.blit(shipname,(WIDTH // 2 - shipname.get_width() //2, 350))
+        WIN.blit(ARROW_LEFT, (250, 350 - ARROW_LEFT.get_height()//4))
+        WIN.blit(ARROW_RIGHT, (600, 350 - ARROW_RIGHT.get_height()//4))
+
+        WIN.blit(ARROW_DOWN, (pointerx, 150))
+        pygame.display.update()
 
 def options_submenu():
     options_orderer = 1
@@ -241,17 +316,12 @@ def options_submenu():
                     options_orderer -= 1
                 if event.key == pygame.K_DOWN and options_orderer < 3:
                     options_orderer += 1
-                if event.key == pygame.K_SPACE and options_orderer == 1: 
-                    text_rebellion = 2
-                    ships_rebellion = 1  
-                    choose_ship(text_rebellion, ships_rebellion)
-                    
+                if event.key == pygame.K_SPACE and options_orderer == 1:  
+                    choose_ship(X_WING, FALCON, Y_WING, Xwing.stats, 0, pointer)
+                    run_options = False 
                 if event.key == pygame.K_SPACE and options_orderer == 2:   
-                    choose_ship(text_empire, ships_empire)
-                    text_empire = 1
-                    ships_empire = 2 
-                    
-                    # zde bude jedna funkce ktere passnu informace podle toho kterou lod vybirame pro obe varianty
+                    choose_ship(TIE_FIGHTER, TIE_REAPER, TIE_ADVANCED, Tie.stats, 1, pointer)
+                    run_options = False 
                 if event.key == pygame.K_SPACE and options_orderer == 3:   
                     menu()
                   
@@ -267,6 +337,7 @@ def options_submenu():
         WIN.blit(menu_pl2, (WIDTH // 2 - 180, 300))
         WIN.blit(back, (WIDTH // 2 - 180, 350))
         
+        indikator(options_orderer, 200)
         pygame.display.update()
    
 def menu():
@@ -308,11 +379,11 @@ def menu():
         WIN.blit(menu_options, (WIDTH // 2 - 70, 300))
         WIN.blit(menu_credits, (WIDTH // 2 - 70, 350))
         WIN.blit(menu_quit, (WIDTH//2 - 70, 400))
-
+        
         WIN.blit(Xwing.WING, (100, 200))
         WIN.blit(Tie.TIE, (700, 200))
 
-        indikator(poradnik)
+        indikator(poradnik, 320)
         pygame.display.update()
         
     pygame.quit()
