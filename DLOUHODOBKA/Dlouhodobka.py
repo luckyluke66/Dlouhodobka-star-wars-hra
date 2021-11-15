@@ -42,7 +42,6 @@ FIRE_SOUND = pygame.mixer.Sound(os.path.join('blaster1.wav'))
 HIT_SOUND = pygame.mixer.Sound(os.path.join('mixkit-space-impact-774.wav'))
 EXPLOSION_SOUND = pygame.mixer.Sound(os.path.join('Explosion Sound Effect.wav'))
 
-
 # import vsech obrazku pomoci os
 SPACE = pygame.transform.scale(pygame.image.load(os.path.join('space.jpg')),(WIDTH, HEIGHT))
 
@@ -238,36 +237,6 @@ def indikator(poradnik, width):
     WIN.blit(indikator, (width, vyska_indikatoru))
 
 def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
-    if pointer == 1 and number == 1:
-        Tie.TIE = shipone
-        pointerx = 100
-        ShipName = "X-Wing"
-    if pointer == 2 and number == 1:
-        Tie.TIE = shiptwo
-        pointerx = 300
-        ShipName = "Milenium Falcon"
-    if pointer == 3 and number == 1:
-        Tie.TIE = shipthree
-        pointerx = 500
-        ShipName = "Y-Wing"
-    if pointer == 4 and number == 1:
-        Tie.TIE = random.choice([shipone, shiptwo, shipthree])
-        pointerx = 700
-        ShipName = "Random"
-
-    if pointer == 1 and number == 0:
-        Xwing.WING = shipone
-        pointerx = 100
-    if pointer == 2 and number == 0:
-        Xwing.WING = shiptwo
-        pointerx = 300
-    if pointer == 3 and number == 0:
-        Xwing.WING = shipthree
-        pointerx = 500
-    if pointer == 4 and number == 0:
-        Xwing.WING = random.choice([shipone, shiptwo, shipthree])
-        pointerx = 700
-    
     clock = pygame.time.Clock()
     run_choose = True
     while run_choose:
@@ -284,9 +253,44 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
                 if event.key == pygame.K_RIGHT and pointer < 4:
                     pointer += 1
         
+
+        if pointer == 1 and number == 1:
+            Tie.TIE = shipone
+            pointerx = 100
+            ShipName = "Tie Fighter"
+        if pointer == 2 and number == 1:
+            Tie.TIE = shiptwo
+            pointerx = 300
+            ShipName = "Tie Reaper"
+        if pointer == 3 and number == 1:
+            Tie.TIE = shipthree
+            pointerx = 500
+            ShipName = "Tie Advanced"
+        if pointer == 4 and number == 1:
+            Tie.TIE = random.choice([shipone, shiptwo, shipthree])
+            pointerx = 700
+            ShipName = "Random"
+
+        if pointer == 1 and number == 0:
+            Xwing.WING = shipone
+            pointerx = 100
+            ShipName = "X Wing"
+        if pointer == 2 and number == 0:
+            Xwing.WING = shiptwo
+            pointerx = 300
+            ShipName = "Milenium Falcon"
+        if pointer == 3 and number == 0:
+            Xwing.WING = shipthree
+            pointerx = 500
+            ShipName = "Y Wing"
+        if pointer == 4 and number == 0:
+            Xwing.WING = random.choice([shipone, shiptwo, shipthree])
+            pointerx = 700
+            ShipName = "Random"
+
+        shipname = HEALTH_FONT.render(ShipName, 1, WHITE)
         menu_caption = MENU_FONT.render("CHOOSE SHIP", 1, WHITE)
-        shipname = HEALTH_FONT.render((ShipName), 1, WHITE)
-    
+
         WIN.blit(SPACE, (0, 0))
         WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2, 10))
         
@@ -295,10 +299,10 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
         WIN.blit(shipthree, (500, 200))
         WIN.blit(RANDOM, (700,200))
         
-        WIN.blit(shipname,(WIDTH // 2 - shipname.get_width() //2, 350))
+        
         WIN.blit(ARROW_LEFT, (250, 350 - ARROW_LEFT.get_height()//4))
         WIN.blit(ARROW_RIGHT, (600, 350 - ARROW_RIGHT.get_height()//4))
-
+        WIN.blit(shipname,(WIDTH // 2 - shipname.get_width() //2, 350))
         WIN.blit(ARROW_DOWN, (pointerx, 150))
         pygame.display.update()
 
