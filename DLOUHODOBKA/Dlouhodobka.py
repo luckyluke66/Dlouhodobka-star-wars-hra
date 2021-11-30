@@ -23,9 +23,9 @@ FPS = 60
 LASER_SPEED = 7
 MAX_SHOTS = 3
 
-MENU_FONT = pygame.font.Font("8-BIT WONDER.ttf", 80)
-WINNER_FONT_N = pygame.font.Font("8-BIT WONDER.ttf", 50)
-HEALTH_FONT = pygame.font.Font('8-BIT WONDER.ttf', 20)
+MENU_FONT = pygame.font.Font("font/8-BIT WONDER.ttf", 80)
+WINNER_FONT_N = pygame.font.Font("font/8-BIT WONDER.ttf", 50)
+HEALTH_FONT = pygame.font.Font('font/8-BIT WONDER.ttf', 20)
 
 done = 0
 pointer = 1
@@ -38,64 +38,83 @@ XWING_HIT = pygame.USEREVENT + 2
 
 WINNER_FONT = pygame.font.SysFont('FR73 Pixel', 100)
 # zvukove efekty
-FIRE_SOUND = pygame.mixer.Sound(os.path.join('blaster1.wav'))
-HIT_SOUND = pygame.mixer.Sound(os.path.join('mixkit-space-impact-774.wav'))
-EXPLOSION_SOUND = pygame.mixer.Sound(os.path.join('Explosion Sound Effect.wav'))
+FIRE_SOUND = pygame.mixer.Sound(os.path.join('sounds/blaster1.wav'))
+HIT_SOUND = pygame.mixer.Sound(os.path.join('sounds/mixkit-space-impact-774.wav'))
+EXPLOSION_SOUND = pygame.mixer.Sound(os.path.join('sounds/Explosion Sound Effect.wav'))
 
 # import vsech obrazku pomoci os
-SPACE = pygame.transform.scale(pygame.image.load(os.path.join('space.jpg')),(WIDTH, HEIGHT))
+SPACE = pygame.transform.scale(pygame.image.load(os.path.join('textures','space.jpg')),(WIDTH, HEIGHT))
 
-X_WING_IMG = pygame.image.load(os.path.join('rebellion', 'Xwing.png'))
+X_WING_IMG = pygame.image.load(os.path.join('textures','rebellion', 'Xwing.png'))
 X_WING = pygame.transform.rotate(pygame.transform.scale(X_WING_IMG, (60,60)), 0)
 
-Y_WING_IMG = pygame.image.load(os.path.join('rebellion', 'Ywing.png'))
+Y_WING_IMG = pygame.image.load(os.path.join('textures','rebellion', 'Ywing.png'))
 Y_WING = pygame.transform.rotate(pygame.transform.scale(Y_WING_IMG, (60,60)), 0)
 
-FALCON_IMG = pygame.image.load(os.path.join('rebellion', 'MileniumFalcon.png'))
+FALCON_IMG = pygame.image.load(os.path.join('textures','rebellion', 'MileniumFalcon.png'))
 FALCON = pygame.transform.rotate(pygame.transform.scale(FALCON_IMG, (60,60)), 270)
 
-HP_ICON_XWING_IMG = pygame.image.load(os.path.join('rebellion', 'rebel logo.png'))
+HP_ICON_XWING_IMG = pygame.image.load(os.path.join('textures','rebellion', 'rebel logo.png'))
 HP_ICON_XWING = pygame.transform.rotate(pygame.transform.scale(HP_ICON_XWING_IMG, (40,40)), 0)
 
-TIE_IMG = pygame.image.load(os.path.join('empire', 'TieAdvanced.png'))
+TIE_IMG = pygame.image.load(os.path.join('textures','empire', 'TieAdvanced.png'))
 TIE_ADVANCED = pygame.transform.rotate(pygame.transform.scale(TIE_IMG, (50,50)), 180)
 
-TIE_IMG = pygame.image.load(os.path.join('empire', 'TieFighter.png'))
+TIE_IMG = pygame.image.load(os.path.join('textures','empire', 'TieFighter.png'))
 TIE_FIGHTER = pygame.transform.rotate(pygame.transform.scale(TIE_IMG, (50,50)), 180)
 
-TIE_IMG = pygame.image.load(os.path.join('empire', 'TieReaper.png'))
+TIE_IMG = pygame.image.load(os.path.join('textures','empire', 'TieReaper.png'))
 TIE_REAPER = pygame.transform.rotate(pygame.transform.scale(TIE_IMG, (50,50)), 180)
 
-HP_ICON_TIE_IMG = pygame.image.load(os.path.join('empire', 'empire logo.png'))
+HP_ICON_TIE_IMG = pygame.image.load(os.path.join('textures','empire', 'empire logo.png'))
 HP_ICON_TIE = pygame.transform.rotate(pygame.transform.scale(HP_ICON_TIE_IMG, (43,43)), 0)
 
-ICON = pygame.image.load(os.path.join('logovader.jpg'))
+ICON = pygame.image.load(os.path.join('textures','logovader.jpg'))
 
-ARROW_IMG = pygame.image.load(os.path.join("arrow.png"))
+ARROW_IMG = pygame.image.load(os.path.join('textures',"arrow.png"))
 ARROW_LEFT = pygame.transform.scale(ARROW_IMG, (55,55))
 ARROW_RIGHT = pygame.transform.rotate(pygame.transform.scale(ARROW_IMG, (50,50)), 180 )
 ARROW_DOWN = pygame.transform.rotate(pygame.transform.scale(ARROW_IMG, (50,50)), 90 )
 
-RANDOM_IMG = pygame.image.load(os.path.join("random.png"))
+RANDOM_IMG = pygame.image.load(os.path.join('textures',"random.png"))
 RANDOM = pygame.transform.scale(RANDOM_IMG, (50, 50))
+
+# ikony v menu
+DMG_ICON = pygame.image.load(os.path.join("textures", "DMG_ICON.png"))
+DMG_ICON = pygame.transform.scale(DMG_ICON, (40,40))
+HP_ICON = pygame.image.load(os.path.join("textures","HP_ICON.png"))
+HP_ICON = pygame.transform.scale(HP_ICON, (40,40))
+MAX_SHOTS_ICON = pygame.image.load(os.path.join("textures", "MAX_SHOTS_ICON.png"))
+MAX_SHOTS_ICON = pygame.transform.scale(MAX_SHOTS_ICON, (40,40))
+SHOT_SPEED_ICON = pygame.image.load(os.path.join("textures", "SHOT_SPEED_ICON.png"))
+SHOT_SPEED_ICON = pygame.transform.scale(SHOT_SPEED_ICON, (40,40))
+SPEED_ICON = pygame.image.load(os.path.join("textures", "SPEED_ICON.png"))
+SPEED_ICON = pygame.transform.scale(SPEED_ICON, (40,40))
+
+# tabulky stats
+STATS = pygame.image.load(os.path.join("textures", "stats.png"))
+STATS = pygame.transform.scale(STATS, (400,150))
+
 
 pygame.display.set_caption("star wars hra")
 pygame.display.set_icon(ICON)
 
 class Tie:
     def __init__(self):
-        self.SPEED = 5
-        self.TIE = random.choice([TIE_FIGHTER,TIE_ADVANCED,TIE_REAPER])
-        self.empire_ships = [TIE_FIGHTER,TIE_ADVANCED,TIE_REAPER]
-        self.stats = {"fighter": {"hp" : 4, "speed" : 5, "damage" : 1 }}
-        self.tie_rec = pygame.Rect(700, 200, 40, 40)
-        self.laser_tie = []
+        self.SPEED = 6
         self.HP_tie = 4
         self.MAX_HP = 4
+        self.max_shots = 3
+        self.shot_speed = 7
+        self.TIE = TIE_FIGHTER
+        self.empire_ships = [TIE_FIGHTER,TIE_ADVANCED,TIE_REAPER]
+        self.tie_rec = pygame.Rect(700, 200, 40, 40)
+        self.laser_tie = []
         self.HP_bar_width = 200
         self.HP_bar_height = 20
         self.bar_position = 663
         self.yellow_bar_width = 200
+        
 
     def draw_tie(self):
         WIN.blit(self.TIE, (self.tie_rec.x, self.tie_rec.y))
@@ -119,7 +138,7 @@ class Tie:
         for laser in self.laser_tie:
             pygame.draw.rect(WIN, RED, laser)
         for laser in self.laser_tie:
-            laser.x -= LASER_SPEED
+            laser.x -= self.shot_speed
             if Xwing.xwing_rec.colliderect(laser):
                 pygame.event.post(pygame.event.Event(TIE_HIT))
                 self.laser_tie.remove(laser)
@@ -132,20 +151,43 @@ class Tie:
         pygame.draw.rect(WIN, RED, [self.bar_position, 13, self.HP_bar_width, self.HP_bar_height])
         WIN.blit(HP_ICON_TIE, (850, 3))
 
+    def stats(self):
+        if self.TIE == TIE_FIGHTER:
+            self.HP_tie = 4
+            self.MAX_HP = 4
+            self.tie_speed = 6
+            self.max_shots = 3
+            self.shot_speed = 7
+        if self.TIE == TIE_ADVANCED:
+            self.HP_tie = 5
+            self.MAX_HP = 5
+            self.tie_speed = 4
+            self.max_shots = 4
+            self.shot_speed = 6
+        if self.TIE == TIE_REAPER:
+            self.HP_tie = 3
+            self.MAX_HP = 3
+            self.tie_speed = 5
+            self.max_shots = 5
+            self.shot_speed = 8  
+
 Tie = Tie()
 
 class Xwing:
     def __init__(self):
         self.SPEED = 5
-        self.WING = random.choice([X_WING, Y_WING, FALCON])
+        self.HP_xwing = 4
+        self.MAX_HP = 4
+        self.max_shots = 3
+        self.shot_speed = 7
+        self.WING = X_WING
         self.rebellion_ships = [X_WING, Y_WING, FALCON]
-        self.stats = {"xwing": {"hp" : 4, "speed" : 5, "damage" : 1 }}
         self.xwing_rec = pygame.Rect(100, 200, 60, 50)
         self.laser_xwing = []
-        self.HP_xwing = 4
         self.HP_bar_width = 200
         self.HP_bar_height = 20
         self.yellow_bar_width = 200
+
     def draw_xwing(self):
         WIN.blit(self.WING, (self.xwing_rec.x, self.xwing_rec.y))
 
@@ -168,7 +210,7 @@ class Xwing:
         for laser in self.laser_xwing:
             pygame.draw.rect(WIN, LIGHT_BLUE, laser)
         for laser in self.laser_xwing:
-            laser.x += LASER_SPEED
+            laser.x += self.shot_speed
             if Tie.tie_rec.colliderect(laser):
                 pygame.event.post(pygame.event.Event(XWING_HIT))
                 self.laser_xwing.remove(laser)
@@ -181,6 +223,26 @@ class Xwing:
         pygame.draw.rect(WIN, RED, [38, 13, self.HP_bar_width, self.HP_bar_height])
         WIN.blit(HP_ICON_XWING, (10, 3))
 
+    def stats(self):
+        if self.TIE == X_WING:
+            self.HP_tie = 4
+            self.MAX_HP = 4
+            self.tie_speed = 6
+            self.max_shots = 3
+            self.shot_speed = 7
+        if self.TIE == FALCON:
+            self.HP_tie = 5
+            self.MAX_HP = 5
+            self.tie_speed = 4
+            self.max_shots = 4
+            self.shot_speed = 6
+        if self.TIE == Y_WING:
+            self.HP_tie = 3
+            self.MAX_HP = 3
+            self.tie_speed = 5
+            self.max_shots = 5
+            self.shot_speed = 8 
+
 Xwing = Xwing()
 
 class Explosion(pygame.sprite.Sprite):
@@ -188,7 +250,7 @@ class Explosion(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.images = []
         for number in range(1,6):
-            img = pygame.image.load(f"img/exp{number}.png")
+            img = pygame.image.load(f"textures/img/exp{number}.png")
             img = pygame.transform.scale(img, (60,60))
             self.images.append(img)
         self.index = 0
@@ -299,11 +361,17 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
         WIN.blit(shipthree, (500, 200))
         WIN.blit(RANDOM, (700,200))
         
+        WIN.blit(HP_ICON, (200, 400))
+        WIN.blit(SPEED_ICON, (200,450))
+        WIN.blit(MAX_SHOTS_ICON, (600,400))
+        WIN.blit(SHOT_SPEED_ICON, (600,450))
+        WIN.blit(STATS, (230, 380))
         
         WIN.blit(ARROW_LEFT, (250, 350 - ARROW_LEFT.get_height()//4))
         WIN.blit(ARROW_RIGHT, (600, 350 - ARROW_RIGHT.get_height()//4))
         WIN.blit(shipname,(WIDTH // 2 - shipname.get_width() //2, 350))
         WIN.blit(ARROW_DOWN, (pointerx, 150))
+        Tie.stats()
         pygame.display.update()
 
 def options_submenu():
@@ -403,10 +471,10 @@ def game(done, WIN):
                 run = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RCTRL and len(Tie.laser_tie) < MAX_SHOTS:
+                if event.key == pygame.K_RCTRL and len(Tie.laser_tie) < Tie.max_shots:
                     Tie.shoot_laser_tie()
 
-                if event.key == pygame.K_LCTRL and len(Xwing.laser_xwing) < MAX_SHOTS:
+                if event.key == pygame.K_LCTRL and len(Xwing.laser_xwing) < Xwing.max_shots:
                     Xwing.shoot_laser_xwing()
             
             if event.type == TIE_HIT:
@@ -433,8 +501,6 @@ def game(done, WIN):
 
         Tie.hp_bar_tie()
         Xwing.HP_bar_xwing()
-
-
 
         winner_text = ""
         if Xwing.HP_xwing <= 0:
