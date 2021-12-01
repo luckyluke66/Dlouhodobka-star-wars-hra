@@ -79,22 +79,19 @@ ARROW_DOWN = pygame.transform.rotate(pygame.transform.scale(ARROW_IMG, (50,50)),
 RANDOM_IMG = pygame.image.load(os.path.join('textures',"random.png"))
 RANDOM = pygame.transform.scale(RANDOM_IMG, (50, 50))
 
-# ikony v menu
-DMG_ICON = pygame.image.load(os.path.join("textures", "DMG_ICON.png"))
-DMG_ICON = pygame.transform.scale(DMG_ICON, (40,40))
-HP_ICON = pygame.image.load(os.path.join("textures","HP_ICON.png"))
-HP_ICON = pygame.transform.scale(HP_ICON, (40,40))
-MAX_SHOTS_ICON = pygame.image.load(os.path.join("textures", "MAX_SHOTS_ICON.png"))
-MAX_SHOTS_ICON = pygame.transform.scale(MAX_SHOTS_ICON, (40,40))
-SHOT_SPEED_ICON = pygame.image.load(os.path.join("textures", "SHOT_SPEED_ICON.png"))
-SHOT_SPEED_ICON = pygame.transform.scale(SHOT_SPEED_ICON, (40,40))
-SPEED_ICON = pygame.image.load(os.path.join("textures", "SPEED_ICON.png"))
-SPEED_ICON = pygame.transform.scale(SPEED_ICON, (40,40))
 
 # tabulky stats
-STATS = pygame.image.load(os.path.join("textures", "stats.png"))
-STATS = pygame.transform.scale(STATS, (400,150))
+STATS1 = pygame.image.load(os.path.join("textures","stats", "stats1.png"))
+STATS1 = pygame.transform.scale(STATS1, (550,50))
 
+STATS2 = pygame.image.load(os.path.join("textures", "stats", "stats2.png"))
+STATS2 = pygame.transform.scale(STATS2, (550,50))
+
+STATS3 = pygame.image.load(os.path.join("textures", "stats", "stats3.png"))
+STATS3 = pygame.transform.scale(STATS3, (550,50))
+
+RANDOM_STATS = pygame.image.load(os.path.join("textures", "stats", "random_stats.png"))
+RANDOM_STATS = pygame.transform.scale(RANDOM_STATS, (550,50))
 
 pygame.display.set_caption("star wars hra")
 pygame.display.set_icon(ICON)
@@ -228,19 +225,19 @@ class Xwing:
             self.HP_tie = 4
             self.MAX_HP = 4
             self.tie_speed = 6
-            self.max_shots = 3
-            self.shot_speed = 7
-        if self.TIE == FALCON:
-            self.HP_tie = 5
-            self.MAX_HP = 5
-            self.tie_speed = 4
-            self.max_shots = 4
+            self.max_shots = 5
             self.shot_speed = 6
-        if self.TIE == Y_WING:
+        if self.TIE == FALCON:
             self.HP_tie = 3
             self.MAX_HP = 3
-            self.tie_speed = 5
+            self.tie_speed = 4
             self.max_shots = 5
+            self.shot_speed = 5
+        if self.TIE == Y_WING:
+            self.HP_tie = 5
+            self.MAX_HP = 5
+            self.tie_speed = 3
+            self.max_shots = 3
             self.shot_speed = 8 
 
 Xwing = Xwing()
@@ -320,36 +317,44 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
             Tie.TIE = shipone
             pointerx = 100
             ShipName = "Tie Fighter"
+            stats = STATS1
         if pointer == 2 and number == 1:
             Tie.TIE = shiptwo
             pointerx = 300
             ShipName = "Tie Reaper"
+            stats = STATS2
         if pointer == 3 and number == 1:
             Tie.TIE = shipthree
             pointerx = 500
             ShipName = "Tie Advanced"
+            stats = STATS3
         if pointer == 4 and number == 1:
             Tie.TIE = random.choice([shipone, shiptwo, shipthree])
             pointerx = 700
             ShipName = "Random"
+            stats = RANDOM_STATS
 
         if pointer == 1 and number == 0:
             Xwing.WING = shipone
             pointerx = 100
             ShipName = "X Wing"
+            stats = STATS1
         if pointer == 2 and number == 0:
             Xwing.WING = shiptwo
             pointerx = 300
             ShipName = "Milenium Falcon"
+            stats = STATS2
         if pointer == 3 and number == 0:
             Xwing.WING = shipthree
             pointerx = 500
             ShipName = "Y Wing"
+            stats = STATS3
         if pointer == 4 and number == 0:
             Xwing.WING = random.choice([shipone, shiptwo, shipthree])
             pointerx = 700
             ShipName = "Random"
-
+            stats = RANDOM_STATS
+            
         shipname = HEALTH_FONT.render(ShipName, 1, WHITE)
         menu_caption = MENU_FONT.render("CHOOSE SHIP", 1, WHITE)
 
@@ -361,11 +366,7 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
         WIN.blit(shipthree, (500, 200))
         WIN.blit(RANDOM, (700,200))
         
-        WIN.blit(HP_ICON, (200, 400))
-        WIN.blit(SPEED_ICON, (200,450))
-        WIN.blit(MAX_SHOTS_ICON, (600,400))
-        WIN.blit(SHOT_SPEED_ICON, (600,450))
-        WIN.blit(STATS, (230, 380))
+        WIN.blit(stats, (190, 420)) 
         
         WIN.blit(ARROW_LEFT, (250, 350 - ARROW_LEFT.get_height()//4))
         WIN.blit(ARROW_RIGHT, (600, 350 - ARROW_RIGHT.get_height()//4))
@@ -427,7 +428,7 @@ def menu():
                 if event.key == pygame.K_SPACE and poradnik == 2:   # nastaveni hry
                     options_submenu()
                     run_menu = False
-                if event.key == pygame.K_SPACE and poradnik == 3:   # sekce kredits (napr. autori zvukovich souboru)
+                if event.key == pygame.K_SPACE and poradnik == 3:   #TODO: cret
                     #credits_submenu()
                     pass
                 if event.key == pygame.K_SPACE and poradnik == 4:   # vypne program 
