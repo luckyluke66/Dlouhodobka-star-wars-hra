@@ -24,8 +24,10 @@ LASER_SPEED = 7
 MAX_SHOTS = 3
 
 MENU_FONT = pygame.font.Font("font/8-BIT WONDER.ttf", 80)
-WINNER_FONT_N = pygame.font.Font("font/8-BIT WONDER.ttf", 50)
+WINNER_FONT = pygame.font.Font("font/8-BIT WONDER.ttf", 50)
 HEALTH_FONT = pygame.font.Font('font/8-BIT WONDER.ttf', 20)
+CHOOSE_SHIP_FONT = pygame.font.Font('font/8-BIT WONDER.ttf', 45)
+
 
 done = 0
 pointer = 1
@@ -36,7 +38,7 @@ BORDER = pygame.Rect(WIDTH//2-5, 0, 10, HEIGHT)
 TIE_HIT = pygame.USEREVENT + 1
 XWING_HIT = pygame.USEREVENT + 2
 
-WINNER_FONT = pygame.font.SysFont('FR73 Pixel', 100)
+#WINNER_FONT = pygame.font.SysFont('FR73 Pixel', 100)
 # zvukove efekty
 FIRE_SOUND = pygame.mixer.Sound(os.path.join('sounds/blaster1.wav'))
 HIT_SOUND = pygame.mixer.Sound(os.path.join('sounds/mixkit-space-impact-774.wav'))
@@ -92,6 +94,9 @@ STATS3 = pygame.transform.scale(STATS3, (550,50))
 
 RANDOM_STATS = pygame.image.load(os.path.join("textures", "stats", "random_stats.png"))
 RANDOM_STATS = pygame.transform.scale(RANDOM_STATS, (550,50))
+
+HANGAR = pygame.image.load(os.path.join("textures", "hangar.png"))
+HANGAR = pygame.transform.scale(HANGAR, (WIDTH, HEIGHT))
 
 pygame.display.set_caption("star wars hra")
 pygame.display.set_icon(ICON)
@@ -214,7 +219,7 @@ class Xwing:
             elif laser.x > WIDTH:
                 self.laser_xwing.remove(laser)
 
-    def HP_bar_xwing(self):
+    def HP_bar_xwing(self): # FIXME: health bary nefunguji pro jine pocty zivotu nez je 4 
         pygame.draw.rect(WIN, GRAY, [35, 10, 200 + 6, self.HP_bar_height + 6])
         pygame.draw.rect(WIN, YELLOW, [38, 13, self.yellow_bar_width, self.HP_bar_height])
         pygame.draw.rect(WIN, RED, [38, 13, self.HP_bar_width, self.HP_bar_height])
@@ -276,7 +281,7 @@ def restart():
     Xwing.__init__()
     
 def winner(text):
-    draw_text = WINNER_FONT_N.render(text,1, WHITE)
+    draw_text = WINNER_FONT.render(text,1, WHITE)
     WIN.blit(draw_text, (WIDTH//2 - draw_text.get_width()//2, HEIGHT//2 - draw_text.get_height()//2 ))
     pygame.display.update()
     pygame.time.delay(3000)
@@ -356,21 +361,23 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
             stats = RANDOM_STATS
             
         shipname = HEALTH_FONT.render(ShipName, 1, WHITE)
-        menu_caption = MENU_FONT.render("CHOOSE SHIP", 1, WHITE)
+        menu_caption = CHOOSE_SHIP_FONT.render("CHOOSE SHIP", 1, WHITE)
 
         WIN.blit(SPACE, (0, 0))
-        WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2, 10))
+        WIN.blit(HANGAR, (0, 0))
+        WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2 + 2, 10))
         
+        # TODO: napozicovat lode
         WIN.blit(shipone, (100, 200))
         WIN.blit(shiptwo, (300, 200))
         WIN.blit(shipthree, (500, 200))
         WIN.blit(RANDOM, (700,200))
         
-        WIN.blit(stats, (190, 420)) 
+        WIN.blit(stats, (190, 430)) 
         
         WIN.blit(ARROW_LEFT, (250, 350 - ARROW_LEFT.get_height()//4))
         WIN.blit(ARROW_RIGHT, (600, 350 - ARROW_RIGHT.get_height()//4))
-        WIN.blit(shipname,(WIDTH // 2 - shipname.get_width() //2, 350))
+        WIN.blit(shipname,(WIDTH // 2 - shipname.get_width()//2, 350))  #TODO: udelat ramecek kolem jmena lode pomoci dalsiho textu ktery bude o nekolik pixelu vetsi aby text lepe vynikl
         WIN.blit(ARROW_DOWN, (pointerx, 150))
         Tie.stats()
         pygame.display.update()
@@ -428,7 +435,7 @@ def menu():
                 if event.key == pygame.K_SPACE and poradnik == 2:   # nastaveni hry
                     options_submenu()
                     run_menu = False
-                if event.key == pygame.K_SPACE and poradnik == 3:   #TODO: cret
+                if event.key == pygame.K_SPACE and poradnik == 3:   #TODO: credits menu
                     #credits_submenu()
                     pass
                 if event.key == pygame.K_SPACE and poradnik == 4:   # vypne program 
