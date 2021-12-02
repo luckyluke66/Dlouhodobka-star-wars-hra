@@ -1,6 +1,6 @@
 import pygame
 import sys  # ukoncovani programu (neni nutne ale pygame v tomhle uplne spolehlivy neni)
-import os   # psani cest pro externi soubori
+import os   # psani cest pro externi soubory
 import random
 
 # nasledujici 3 radky inicializuji pygamove fukce pro a) samotny pygame b) texty c) hudba a zvukove efekty
@@ -276,6 +276,8 @@ class Explosion(pygame.sprite.Sprite):
 
 explosion_group = pygame.sprite.Group()
 
+
+
 def restart():
     Tie.__init__()
     Xwing.__init__()
@@ -320,43 +322,43 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
 
         if pointer == 1 and number == 1:
             Tie.TIE = shipone
-            pointerx = 100
+            pointerx = 270
             ShipName = "Tie Fighter"
             stats = STATS1
         if pointer == 2 and number == 1:
             Tie.TIE = shiptwo
-            pointerx = 300
+            pointerx = 370
             ShipName = "Tie Reaper"
             stats = STATS2
         if pointer == 3 and number == 1:
             Tie.TIE = shipthree
-            pointerx = 500
+            pointerx = 470
             ShipName = "Tie Advanced"
             stats = STATS3
         if pointer == 4 and number == 1:
             Tie.TIE = random.choice([shipone, shiptwo, shipthree])
-            pointerx = 700
+            pointerx = 570
             ShipName = "Random"
             stats = RANDOM_STATS
 
         if pointer == 1 and number == 0:
             Xwing.WING = shipone
-            pointerx = 100
+            pointerx = 270
             ShipName = "X Wing"
             stats = STATS1
         if pointer == 2 and number == 0:
             Xwing.WING = shiptwo
-            pointerx = 300
+            pointerx = 370
             ShipName = "Milenium Falcon"
             stats = STATS2
         if pointer == 3 and number == 0:
             Xwing.WING = shipthree
-            pointerx = 500
+            pointerx = 470
             ShipName = "Y Wing"
             stats = STATS3
         if pointer == 4 and number == 0:
             Xwing.WING = random.choice([shipone, shiptwo, shipthree])
-            pointerx = 700
+            pointerx = 570
             ShipName = "Random"
             stats = RANDOM_STATS
             
@@ -367,18 +369,17 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
         WIN.blit(HANGAR, (0, 0))
         WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2 + 2, 10))
         
-        # TODO: napozicovat lode
-        WIN.blit(shipone, (100, 200))
-        WIN.blit(shiptwo, (300, 200))
-        WIN.blit(shipthree, (500, 200))
-        WIN.blit(RANDOM, (700,200))
+        WIN.blit(shipone, (270, 200))
+        WIN.blit(shiptwo, (370, 200))
+        WIN.blit(shipthree, (470, 200))
+        WIN.blit(RANDOM, (570,200))
         
         WIN.blit(stats, (190, 430)) 
         
         WIN.blit(ARROW_LEFT, (250, 350 - ARROW_LEFT.get_height()//4))
         WIN.blit(ARROW_RIGHT, (600, 350 - ARROW_RIGHT.get_height()//4))
         WIN.blit(shipname,(WIDTH // 2 - shipname.get_width()//2, 350))  #TODO: udelat ramecek kolem jmena lode pomoci dalsiho textu ktery bude o nekolik pixelu vetsi aby text lepe vynikl
-        WIN.blit(ARROW_DOWN, (pointerx, 150))
+        WIN.blit(ARROW_DOWN, (pointerx, 145))
         Tie.stats()
         pygame.display.update()
 
@@ -470,6 +471,7 @@ def menu():
     run_menu = True
 
 def game(done, WIN):
+    explosion_group.empty()
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -518,6 +520,10 @@ def game(done, WIN):
         if Tie.HP_tie <= 0:
             winner_text = "Rebelion wins"
 
+        
+        explosion_group.draw(WIN)
+        explosion_group.update()
+
 
         if winner_text != "":
             EXPLOSION_SOUND.play()
@@ -525,25 +531,24 @@ def game(done, WIN):
             if Xwing.HP_xwing <= 0:
                 x = Xwing.xwing_rec.x
                 y = Xwing.xwing_rec.y
-                explosion_group.draw(WIN)
-                explosion = Explosion(x,y )
-                explosion_group.add(explosion)
-                explosion_group.update()
+                explosion_tie = Explosion(x,y )
+                explosion_group.add(explosion_tie)
                 done += 1
+                
             elif Tie.HP_tie <= 0:
                 x = Tie.tie_rec.x
                 y = Tie.tie_rec.y
-                explosion_group.draw(WIN)
-                explosion = Explosion(x, y)
-                explosion_group.add(explosion)
-                explosion_group.update()
+                explosion_wing = Explosion(x, y)
+                explosion_group.add(explosion_wing)
                 done += 1
 
-            if done >= 10:
+            if done >= 20:
                 winner(winner_text)
                 menu()
-                break
                 
+                break
+
+        
         pygame.display.update()
     pygame.quit()
     sys.exit()
