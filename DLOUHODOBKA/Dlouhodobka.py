@@ -147,31 +147,31 @@ class Tie:
             elif laser.x < 0:
                 self.laser_tie.remove(laser)
 
-    def hp_bar_tie(self):
-        pygame.draw.rect(WIN, GRAY, [660, 10, 200 + 6, self.HP_bar_height + 6 ])
-        pygame.draw.rect(WIN, YELLOW, [663, 13, self.yellow_bar_width, self.HP_bar_height])
-        pygame.draw.rect(WIN, RED, [self.bar_position, 13, self.HP_bar_width, self.HP_bar_height])
-        WIN.blit(HP_ICON_TIE, (850, 3))
-
     def stats(self):
         if self.TIE == TIE_FIGHTER:
             self.HP_tie = 4
             self.MAX_HP = 4
-            self.tie_speed = 6
+            self.SPEED = 6
             self.max_shots = 3
             self.shot_speed = 7
         if self.TIE == TIE_ADVANCED:
             self.HP_tie = 5
             self.MAX_HP = 5
-            self.tie_speed = 4
+            self.SPEED = 4
             self.max_shots = 4
             self.shot_speed = 6
         if self.TIE == TIE_REAPER:
             self.HP_tie = 3
             self.MAX_HP = 3
-            self.tie_speed = 5
+            self.SPEED = 5
             self.max_shots = 5
             self.shot_speed = 8  
+
+    def hp_bar_tie(self):
+        pygame.draw.rect(WIN, GRAY, [660, 10, 200 + 6, self.HP_bar_height + 6 ])
+        pygame.draw.rect(WIN, YELLOW, [663, 13, self.yellow_bar_width, self.HP_bar_height])
+        pygame.draw.rect(WIN, RED, [self.bar_position, 13, self.HP_bar_width, self.HP_bar_height])
+        WIN.blit(HP_ICON_TIE, (850, 3))
 
 Tie = Tie()
 
@@ -219,31 +219,31 @@ class Xwing:
             elif laser.x > WIDTH:
                 self.laser_xwing.remove(laser)
 
-    def HP_bar_xwing(self): # FIXME: health bary nefunguji pro jine pocty zivotu nez je 4 
+    def stats(self):
+        if self.WING == X_WING:
+            self.HP_xwing = 4
+            self.MAX_HP = 4
+            self.SPEED = 6
+            self.max_shots = 5
+            self.shot_speed = 6
+        if self.WING == FALCON:
+            self.HP_xwing = 3
+            self.MAX_HP = 3
+            self.SPEED = 4
+            self.max_shots = 5
+            self.shot_speed = 5
+        if self.WING == Y_WING:
+            self.HP_xwing = 5
+            self.MAX_HP = 5
+            self.SPEED = 3
+            self.max_shots = 3
+            self.shot_speed = 8 
+
+    def HP_bar_xwing(self): 
         pygame.draw.rect(WIN, GRAY, [35, 10, 200 + 6, self.HP_bar_height + 6])
         pygame.draw.rect(WIN, YELLOW, [38, 13, self.yellow_bar_width, self.HP_bar_height])
         pygame.draw.rect(WIN, RED, [38, 13, self.HP_bar_width, self.HP_bar_height])
         WIN.blit(HP_ICON_XWING, (10, 3))
-
-    def stats(self):
-        if self.TIE == X_WING:
-            self.HP_tie = 4
-            self.MAX_HP = 4
-            self.tie_speed = 6
-            self.max_shots = 5
-            self.shot_speed = 6
-        if self.TIE == FALCON:
-            self.HP_tie = 3
-            self.MAX_HP = 3
-            self.tie_speed = 4
-            self.max_shots = 5
-            self.shot_speed = 5
-        if self.TIE == Y_WING:
-            self.HP_tie = 5
-            self.MAX_HP = 5
-            self.tie_speed = 3
-            self.max_shots = 3
-            self.shot_speed = 8 
 
 Xwing = Xwing()
 
@@ -302,7 +302,7 @@ def indikator(poradnik, width):
     indikator = HEALTH_FONT.render("*", 1, WHITE)
     WIN.blit(indikator, (width, vyska_indikatoru))
 
-def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
+def choose_ship(shipone, shiptwo, shipthree, number, pointer):
     clock = pygame.time.Clock()
     run_choose = True
     while run_choose:
@@ -319,6 +319,26 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
                 if event.key == pygame.K_RIGHT and pointer < 4:
                     pointer += 1
         
+        if pointer == 1 and number == 0:
+            Xwing.WING = shipone
+            pointerx = 270
+            ShipName = "X Wing"
+            stats = STATS1
+        if pointer == 2 and number == 0:
+            Xwing.WING = shiptwo
+            pointerx = 370
+            ShipName = "Milenium Falcon"
+            stats = STATS2
+        if pointer == 3 and number == 0:
+            Xwing.WING = shipthree
+            pointerx = 470
+            ShipName = "Y Wing"
+            stats = STATS3
+        if pointer == 4 and number == 0:
+            Xwing.WING = random.choice([shipone, shiptwo, shipthree])
+            pointerx = 570
+            ShipName = "Random"
+            stats = RANDOM_STATS
 
         if pointer == 1 and number == 1:
             Tie.TIE = shipone
@@ -341,26 +361,6 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
             ShipName = "Random"
             stats = RANDOM_STATS
 
-        if pointer == 1 and number == 0:
-            Xwing.WING = shipone
-            pointerx = 270
-            ShipName = "X Wing"
-            stats = STATS1
-        if pointer == 2 and number == 0:
-            Xwing.WING = shiptwo
-            pointerx = 370
-            ShipName = "Milenium Falcon"
-            stats = STATS2
-        if pointer == 3 and number == 0:
-            Xwing.WING = shipthree
-            pointerx = 470
-            ShipName = "Y Wing"
-            stats = STATS3
-        if pointer == 4 and number == 0:
-            Xwing.WING = random.choice([shipone, shiptwo, shipthree])
-            pointerx = 570
-            ShipName = "Random"
-            stats = RANDOM_STATS
             
         shipname = HEALTH_FONT.render(ShipName, 1, WHITE)
         menu_caption = CHOOSE_SHIP_FONT.render("CHOOSE SHIP", 1, WHITE)
@@ -381,6 +381,7 @@ def choose_ship(shipone, shiptwo, shipthree, stats, number, pointer):
         WIN.blit(shipname,(WIDTH // 2 - shipname.get_width()//2, 350))  #TODO: udelat ramecek kolem jmena lode pomoci dalsiho textu ktery bude o nekolik pixelu vetsi aby text lepe vynikl
         WIN.blit(ARROW_DOWN, (pointerx, 145))
         Tie.stats()
+        Xwing.stats()
         pygame.display.update()
 
 def options_submenu():
@@ -398,10 +399,10 @@ def options_submenu():
                 if event.key == pygame.K_DOWN and options_orderer < 3:
                     options_orderer += 1
                 if event.key == pygame.K_SPACE and options_orderer == 1:  
-                    choose_ship(X_WING, FALCON, Y_WING, Xwing.stats, 0, pointer)
+                    choose_ship(X_WING, FALCON, Y_WING, 0, pointer)
                     run_options = False 
                 if event.key == pygame.K_SPACE and options_orderer == 2:   
-                    choose_ship(TIE_FIGHTER, TIE_REAPER, TIE_ADVANCED, Tie.stats, 1, pointer)
+                    choose_ship(TIE_FIGHTER, TIE_REAPER, TIE_ADVANCED, 1, pointer)
                     run_options = False 
                 if event.key == pygame.K_SPACE and options_orderer == 3:   
                     menu()
@@ -421,7 +422,7 @@ def options_submenu():
         indikator(options_orderer, 200)
         pygame.display.update()
    
-def menu():
+def menu():   # TODO: nacitaci obrazovka 
     poradnik = 1
     clock = pygame.time.Clock()
     run_menu = True
@@ -490,13 +491,15 @@ def game(done, WIN):
             if event.type == TIE_HIT:
                 Xwing.HP_xwing -= 1
                 HIT_SOUND.play()
-                Xwing.HP_bar_width -= 50
+                Xwing.HP_bar_width = Xwing.HP_bar_width - 200 / Xwing.MAX_HP
+                print(f"wing {Xwing.MAX_HP}")
 
             if event.type == XWING_HIT:
                 Tie.HP_tie -= 1
-                Tie.bar_position += 50
-                Tie.HP_bar_width -= 50
                 HIT_SOUND.play()
+                Tie.HP_bar_width = Tie.HP_bar_width - 200 / Tie.MAX_HP
+                Tie.bar_position = Tie.bar_position + 200 / Tie.MAX_HP
+                print(f"tie {Tie.MAX_HP}")
 
         Tie.move_tie()
         Xwing.move_xwing()
@@ -545,10 +548,8 @@ def game(done, WIN):
             if done >= 20:
                 winner(winner_text)
                 menu()
-                
                 break
-
-        
+            
         pygame.display.update()
     pygame.quit()
     sys.exit()
