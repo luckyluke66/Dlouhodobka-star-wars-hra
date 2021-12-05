@@ -23,11 +23,10 @@ FPS = 60
 LASER_SPEED = 7
 MAX_SHOTS = 3
 
-MENU_FONT = pygame.font.Font("font/8-BIT WONDER.ttf", 80)
-WINNER_FONT = pygame.font.Font("font/8-BIT WONDER.ttf", 50)
+MENU_FONT = pygame.font.Font('font/8-BIT WONDER.ttf', 80)
+WINNER_FONT = pygame.font.Font('font/8-BIT WONDER.ttf', 50)
 HEALTH_FONT = pygame.font.Font('font/8-BIT WONDER.ttf', 20)
 CHOOSE_SHIP_FONT = pygame.font.Font('font/8-BIT WONDER.ttf', 45)
-
 
 done = 0
 pointer = 1
@@ -97,6 +96,12 @@ RANDOM_STATS = pygame.transform.scale(RANDOM_STATS, (550,50))
 
 HANGAR = pygame.image.load(os.path.join("textures", "hangar.png"))
 HANGAR = pygame.transform.scale(HANGAR, (WIDTH, HEIGHT))
+
+SABER = pygame.image.load(os.path.join("textures", "lightsaber2.png"))
+SABER = pygame.transform.scale(SABER, (400, 30))
+
+LOGO = pygame.image.load(os.path.join("textures", "logo.png"))
+LOGO = pygame.transform.scale(LOGO, (1000,400))
 
 pygame.display.set_caption("star wars hra")
 pygame.display.set_icon(ICON)
@@ -289,18 +294,23 @@ def winner(text):
     pygame.time.delay(3000)
     restart()
 
-def indikator(poradnik, width):
-    vyska_indikatoru = 250 
-    if poradnik == 1:
-        vyska_indikatoru = 250
-    if poradnik == 2:
-        vyska_indikatoru = 300
-    if poradnik == 3:
-        vyska_indikatoru = 350
-    if poradnik == 4:
-        vyska_indikatoru = 400
-    indikator = HEALTH_FONT.render("*", 1, WHITE)
-    WIN.blit(indikator, (width, vyska_indikatoru))
+def indicator(orderer, width, width2, text1, text2, text3, text4):
+    indicator_height = 247 
+    if orderer == 1:
+        indicator_height = 247
+        submenu = HEALTH_FONT.render(text1, 1, BLACK)
+    if orderer == 2:
+        indicator_height = 297
+        submenu = HEALTH_FONT.render(text2, 1, BLACK)
+    if orderer == 3:
+        indicator_height = 347
+        submenu = HEALTH_FONT.render(text3, 1, BLACK)
+    if orderer == 4:
+        indicator_height = 397
+        submenu = HEALTH_FONT.render(text4, 1, BLACK)
+
+    WIN.blit(SABER, (width, indicator_height))
+    WIN.blit(submenu,(width2, indicator_height + 3))
 
 def choose_ship(shipone, shiptwo, shipthree, number, pointer):
     clock = pygame.time.Clock()
@@ -407,23 +417,22 @@ def options_submenu():
                 if event.key == pygame.K_SPACE and options_orderer == 3:   
                     menu()
                   
-                    
         menu_caption = MENU_FONT.render("OPTIONS", 1, WHITE)
-        menu_pl1 = HEALTH_FONT.render("Player 1 ( Rebellion)", 1, WHITE)
-        menu_pl2 = HEALTH_FONT.render("Player 2 ( Empire)", 1, WHITE)
+        menu_pl1 = HEALTH_FONT.render("Rebellion", 1, WHITE)
+        menu_pl2 = HEALTH_FONT.render("Empire", 1, WHITE)
         back = HEALTH_FONT.render("back", 1, WHITE)
 
         WIN.blit(SPACE, (0, 0))
         WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2, 100))
-        WIN.blit(menu_pl1, (WIDTH // 2 - 180, 250))
-        WIN.blit(menu_pl2, (WIDTH // 2 - 180, 300))
-        WIN.blit(back, (WIDTH // 2 - 180, 350))
-        
-        indikator(options_orderer, 200)
+        WIN.blit(menu_pl1, (WIDTH // 2 - 100, 250))
+        WIN.blit(menu_pl2, (WIDTH // 2 - 100, 300))
+        WIN.blit(back, (WIDTH // 2 - 100, 350))
+    
+        indicator(options_orderer, 230, 450, "Rebellion", "Empire", "back", "nic")
         pygame.display.update()
    
 def menu():   # TODO: nacitaci obrazovka 
-    poradnik = 1
+    orderer = 1
     clock = pygame.time.Clock()
     run_menu = True
     while run_menu:
@@ -432,21 +441,21 @@ def menu():   # TODO: nacitaci obrazovka
             if event.type == pygame.QUIT:
                 run_menu = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and poradnik == 1:   # spusti hru
+                if event.key == pygame.K_SPACE and orderer == 1:   # spusti hru
                     game(done,WIN)
-                if event.key == pygame.K_SPACE and poradnik == 2:   # nastaveni hry
+                if event.key == pygame.K_SPACE and orderer == 2:   # nastaveni hry
                     options_submenu()
                     run_menu = False
-                if event.key == pygame.K_SPACE and poradnik == 3:   #TODO: credits menu
+                if event.key == pygame.K_SPACE and orderer == 3:   #TODO: credits menu
                     #credits_submenu()
                     pass
-                if event.key == pygame.K_SPACE and poradnik == 4:   # vypne program 
+                if event.key == pygame.K_SPACE and orderer == 4:   # vypne program 
                     run_menu = False
                     break
-                if event.key == pygame.K_UP and poradnik > 1:
-                    poradnik -= 1
-                if event.key == pygame.K_DOWN and poradnik < 4:
-                    poradnik += 1
+                if event.key == pygame.K_UP and orderer > 1:
+                    orderer -= 1
+                if event.key == pygame.K_DOWN and orderer < 4:
+                    orderer += 1
 
         WIN.blit(SPACE, (0, 0))
         menu_caption = MENU_FONT.render("MENU", 1, WHITE)
@@ -455,8 +464,9 @@ def menu():   # TODO: nacitaci obrazovka
         menu_credits = HEALTH_FONT.render("Credits", 1, WHITE)
         menu_quit = HEALTH_FONT.render("Quit", 1, WHITE)
         
-
+        
         WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width() // 2, 80))
+        #WIN.blit(LOGO, (160,50))
         WIN.blit(menu_play, (WIDTH // 2 - 70, 250))
         WIN.blit(menu_options, (WIDTH // 2 - 70, 300))
         WIN.blit(menu_credits, (WIDTH // 2 - 70, 350))
@@ -465,7 +475,7 @@ def menu():   # TODO: nacitaci obrazovka
         WIN.blit(Xwing.WING, (100, 200))
         WIN.blit(Tie.TIE, (700, 200))
 
-        indikator(poradnik, 320)
+        indicator(orderer, 260, WIDTH // 2 - 70 + 100, "Play", "Options", "Credits", "Quit")
         pygame.display.update()
         
     pygame.quit()
@@ -492,14 +502,12 @@ def game(done, WIN):
                 Xwing.HP_xwing -= 1
                 HIT_SOUND.play()
                 Xwing.HP_bar_width = Xwing.HP_bar_width - 200 / Xwing.MAX_HP
-                print(f"wing {Xwing.MAX_HP}")
 
             if event.type == XWING_HIT:
                 Tie.HP_tie -= 1
                 HIT_SOUND.play()
                 Tie.HP_bar_width = Tie.HP_bar_width - 200 / Tie.MAX_HP
                 Tie.bar_position = Tie.bar_position + 200 / Tie.MAX_HP
-                print(f"tie {Tie.MAX_HP}")
 
         Tie.move_tie()
         Xwing.move_xwing()
