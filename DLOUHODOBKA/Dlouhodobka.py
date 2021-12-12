@@ -321,16 +321,18 @@ def credits_submenu():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run_credits = False
+                break
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    run_credits = False
                     menu()
-        
+                    break
         text = HEALTH_FONT.render("credits",True, WHITE)
         WIN.blit(SPACE, (0,0))
         WIN.blit(text,(100,100))
-
         pygame.display.update()
-
+    pygame.quit()
+    sys.exit()
 
 def choose_ship(shipone, shiptwo, shipthree, number, pointer):
     run_choose = True
@@ -342,6 +344,7 @@ def choose_ship(shipone, shiptwo, shipthree, number, pointer):
             if event.type ==pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     options_submenu()
+                    break
                 if event.key == pygame.K_LEFT and pointer > 1:
                     MENU_SOUND.play()
                     pointer -= 1
@@ -391,7 +394,7 @@ def choose_ship(shipone, shiptwo, shipthree, number, pointer):
             ShipName = "Random"
             stats = RANDOM_STATS
 
-            
+        # TODO: potvrzeni vyberu lode
         shipname = HEALTH_FONT.render(ShipName, 1, WHITE)
         menu_caption = CHOOSE_SHIP_FONT.render("CHOOSE SHIP", 1, WHITE)
 
@@ -413,8 +416,10 @@ def choose_ship(shipone, shiptwo, shipthree, number, pointer):
         Tie.stats()
         Xwing.stats()
         pygame.display.update()
+    pygame.quit()
+    sys.exit()
 
-def options_submenu():          #FIXME: chyba při vypinani menu uvnitr aplikace vypnuti pomoci krizku funguje spravne 
+def options_submenu():
     options_orderer = 1
     run_options = True
     while run_options:
@@ -431,13 +436,16 @@ def options_submenu():          #FIXME: chyba při vypinani menu uvnitr aplikace
                     options_orderer += 1
                 if event.key == pygame.K_SPACE and options_orderer == 1:
                     ENTER_SOUND.play()
-                    choose_ship(X_WING, FALCON, Y_WING, 0, pointer) 
+                    choose_ship(X_WING, FALCON, Y_WING, 0, pointer)
+                    break
                 if event.key == pygame.K_SPACE and options_orderer == 2:
-                    ENTER_SOUND.play()    
+                    ENTER_SOUND.play()
                     choose_ship(TIE_FIGHTER, TIE_REAPER, TIE_ADVANCED, 1, pointer)
+                    break
                 if event.key == pygame.K_SPACE and options_orderer == 3:
-                    ENTER_SOUND.play()                      
+                    ENTER_SOUND.play()
                     menu()
+                    break
                     
                   
         menu_caption = MENU_FONT.render("OPTIONS", 1, WHITE)
@@ -453,8 +461,12 @@ def options_submenu():          #FIXME: chyba při vypinani menu uvnitr aplikace
     
         indicator(options_orderer, 230, 450, "Rebellion", "Empire", "back", "nic")
         pygame.display.update()
+    pygame.quit()
+    sys.exit()
    
-def menu():    #TODO: menu soundtrack
+def menu():
+    pygame.mixer.music.load("sounds/menusoundtrack.wav")
+    pygame.mixer.music.play(-1)
     orderer = 1
     run_menu = True
     while run_menu:
@@ -466,13 +478,15 @@ def menu():    #TODO: menu soundtrack
                 if event.key == pygame.K_SPACE and orderer == 1:   # spusti hru
                     ENTER_SOUND.play()
                     game(done,WIN)
+                    break
                 if event.key == pygame.K_SPACE and orderer == 2:   # nastaveni hry
                     ENTER_SOUND.play()
-                    options_submenu()  
+                    options_submenu()
+                    break
                 if event.key == pygame.K_SPACE and orderer == 3:   #TODO: credits menu
                     ENTER_SOUND.play()
                     credits_submenu()
-                    
+                    break
                 if event.key == pygame.K_SPACE and orderer == 4:   # vypne program 
                     run_menu = False
                     break
@@ -482,6 +496,7 @@ def menu():    #TODO: menu soundtrack
                 if event.key == pygame.K_DOWN and orderer < 4:
                     MENU_SOUND.play()
                     orderer += 1
+    
 
         WIN.blit(SPACE, (0, 0))
         menu_caption = MENU_FONT.render("MENU", 1, WHITE)
@@ -505,7 +520,7 @@ def menu():    #TODO: menu soundtrack
         pygame.display.update()
         
     pygame.quit()
-    run_menu = True
+    sys.exit()
 
 def game(done, WIN):
     pygame.mixer.music.load("sounds/gamesoundtrack_louder.wav")
