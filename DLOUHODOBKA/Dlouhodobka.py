@@ -103,9 +103,6 @@ HANGAR = pygame.transform.scale(HANGAR, (WIDTH, HEIGHT))
 SABER = pygame.image.load(os.path.join("textures", "lightsaber2.png"))
 SABER = pygame.transform.scale(SABER, (400, 30))
 
-LOGO = pygame.image.load(os.path.join("textures", "logo.png"))
-LOGO = pygame.transform.scale(LOGO, (1000,400))
-
 pygame.display.set_caption("star wars hra")
 pygame.display.set_icon(ICON)
 
@@ -342,7 +339,7 @@ def choose_ship(shipone, shiptwo, shipthree, number, pointer):
             if event.type == pygame.QUIT:
                 run_choose = False
             if event.type ==pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_SPACE:
                     options_submenu()
                     break
                 if event.key == pygame.K_LEFT and pointer > 1:
@@ -394,7 +391,6 @@ def choose_ship(shipone, shiptwo, shipthree, number, pointer):
             ShipName = "Random"
             stats = RANDOM_STATS
 
-        # TODO: potvrzeni vyberu lode
         shipname = HEALTH_FONT.render(ShipName, 1, WHITE)
         menu_caption = CHOOSE_SHIP_FONT.render("CHOOSE SHIP", 1, WHITE)
 
@@ -483,17 +479,13 @@ def menu():
                     ENTER_SOUND.play()
                     options_submenu()
                     break
-                if event.key == pygame.K_SPACE and orderer == 3:   #TODO: credits menu
-                    ENTER_SOUND.play()
-                    credits_submenu()
-                    break
-                if event.key == pygame.K_SPACE and orderer == 4:   # vypne program 
+                if event.key == pygame.K_SPACE and orderer == 3:   # vypne program 
                     run_menu = False
                     break
                 if event.key == pygame.K_UP and orderer > 1:
                     MENU_SOUND.play()
                     orderer -= 1
-                if event.key == pygame.K_DOWN and orderer < 4:
+                if event.key == pygame.K_DOWN and orderer < 3:
                     MENU_SOUND.play()
                     orderer += 1
     
@@ -502,16 +494,13 @@ def menu():
         menu_caption = MENU_FONT.render("MENU", 1, WHITE)
         menu_play = HEALTH_FONT.render("Play", 1, WHITE)
         menu_options = HEALTH_FONT.render("Options", 1, WHITE)
-        menu_credits = HEALTH_FONT.render("Credits", 1, WHITE)
         menu_quit = HEALTH_FONT.render("Quit", 1, WHITE)
         
         
         WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width() // 2, 80))
-        #WIN.blit(LOGO, (160,50))
         WIN.blit(menu_play, (WIDTH // 2 - 70, 250))
         WIN.blit(menu_options, (WIDTH // 2 - 70, 300))
-        WIN.blit(menu_credits, (WIDTH // 2 - 70, 350))
-        WIN.blit(menu_quit, (WIDTH//2 - 70, 400))
+        WIN.blit(menu_quit, (WIDTH//2 - 70, 350))
         
         WIN.blit(Xwing.WING, (100, 200))
         WIN.blit(Tie.TIE, (700, 200))
