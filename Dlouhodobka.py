@@ -281,7 +281,6 @@ class Explosion(pygame.sprite.Sprite):
 explosion_group = pygame.sprite.Group()
 
 
-
 def restart():
     Tie.__init__()
     Xwing.__init__()
@@ -310,26 +309,6 @@ def indicator(orderer, width, width2, text1, text2, text3, text4):
 
     WIN.blit(SABER, (width, indicator_height))
     WIN.blit(submenu,(width2, indicator_height + 3))
-
-def credits_submenu():
-    run_credits = True
-    while run_credits:
-        clock.tick(FPS)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run_credits = False
-                break
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    run_credits = False
-                    menu()
-                    break
-        text = HEALTH_FONT.render("credits",True, WHITE)
-        WIN.blit(SPACE, (0,0))
-        WIN.blit(text,(100,100))
-        pygame.display.update()
-    pygame.quit()
-    sys.exit()
 
 def choose_ship(shipone, shiptwo, shipthree, number, pointer):
     run_choose = True
