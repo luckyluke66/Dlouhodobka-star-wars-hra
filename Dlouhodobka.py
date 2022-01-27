@@ -103,6 +103,15 @@ HANGAR = pygame.transform.scale(HANGAR, (WIDTH, HEIGHT))
 SABER = pygame.image.load(os.path.join("textures", "lightsaber2.png"))
 SABER = pygame.transform.scale(SABER, (400, 30))
 
+WASD = pygame.image.load(os.path.join("textures", "wasd.png"))
+WASD = pygame.transform.scale(WASD, (150, 150))
+
+ARROWS = pygame.image.load(os.path.join("textures", "arrows.png"))
+ARROWS = pygame.transform.scale(ARROWS, (150, 150))
+
+CTRL = pygame.image.load(os.path.join("textures", "ctrl.png"))
+CTRL = pygame.transform.scale(CTRL, (130, 150))
+
 pygame.display.set_caption("star wars hra")
 pygame.display.set_icon(ICON)
 
@@ -438,7 +447,50 @@ def options_submenu():
         pygame.display.update()
     pygame.quit()
     sys.exit()
-   
+
+def controls_submenu():
+    run_controls = True
+    while run_controls:
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run_controls = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE or event.key == pygame.K_SPACE:
+                    run_controls = False
+                    menu()
+                    break
+                        
+        menu_caption = MENU_FONT.render("CONTROLS", 1, WHITE)
+
+        P1 = HEALTH_FONT.render("Player 1", 1, WHITE)
+        P2 = HEALTH_FONT.render("Player 2", 1, WHITE)
+
+        shoot = HEALTH_FONT.render("Shoot", 1, WHITE)
+        move = HEALTH_FONT.render("Move", 1, WHITE)
+        left = HEALTH_FONT.render("left", 1, WHITE)
+        right = HEALTH_FONT.render("right", 1, WHITE)
+
+        WIN.blit(SPACE, (0, 0))
+        WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width()//2, 50))
+        WIN.blit(P1, (100, 150))
+        WIN.blit(P2, (WIDTH- 250, 150))
+        WIN.blit(WASD, (85, 180))
+        WIN.blit(ARROWS, (650, 180))
+        WIN.blit(CTRL,(250, 230))
+        WIN.blit(CTRL,(540, 230))
+        WIN.blit(shoot,(255 ,300))
+        WIN.blit(move,(120 ,300))
+        WIN.blit(shoot,(550 ,300))
+        WIN.blit(move,(685 ,300))
+        WIN.blit(right,(550 ,200))
+        WIN.blit(left,(260 ,200))
+
+        indicator(4, 200, WIDTH // 2 - 70, "nic", "nic", "nic", "Back")
+        pygame.display.update()
+    pygame.quit()
+    sys.exit()
+
 def menu():
     pygame.mixer.music.load("sounds/menusoundtrack.wav")
     pygame.mixer.music.play(-1)
@@ -458,13 +510,17 @@ def menu():
                     ENTER_SOUND.play()
                     options_submenu()
                     break
-                if event.key == pygame.K_SPACE and orderer == 3:   # vypne program 
+                if event.key == pygame.K_SPACE and orderer == 3:   # spusti controls 
+                    ENTER_SOUND.play()
+                    controls_submenu()
+                    break
+                if event.key == pygame.K_SPACE and orderer == 4:   # vypne program 
                     run_menu = False
                     break
                 if event.key == pygame.K_UP and orderer > 1:
                     MENU_SOUND.play()
                     orderer -= 1
-                if event.key == pygame.K_DOWN and orderer < 3:
+                if event.key == pygame.K_DOWN and orderer < 4:
                     MENU_SOUND.play()
                     orderer += 1
     
@@ -473,18 +529,20 @@ def menu():
         menu_caption = MENU_FONT.render("MENU", 1, WHITE)
         menu_play = HEALTH_FONT.render("Play", 1, WHITE)
         menu_options = HEALTH_FONT.render("Options", 1, WHITE)
+        menu_controls = HEALTH_FONT.render("Controls", 1, WHITE)
         menu_quit = HEALTH_FONT.render("Quit", 1, WHITE)
         
         
         WIN.blit(menu_caption, (WIDTH//2 - menu_caption.get_width() // 2, 80))
         WIN.blit(menu_play, (WIDTH // 2 - 70, 250))
         WIN.blit(menu_options, (WIDTH // 2 - 70, 300))
-        WIN.blit(menu_quit, (WIDTH//2 - 70, 350))
+        WIN.blit(menu_controls, (WIDTH // 2 - 70, 350)) 
+        WIN.blit(menu_quit, (WIDTH//2 - 70, 400))
         
         WIN.blit(Xwing.WING, (100, 200))
         WIN.blit(Tie.TIE, (700, 200))
 
-        indicator(orderer, 260, WIDTH // 2 - 70 + 100, "Play", "Options", "Credits", "Quit")
+        indicator(orderer, 260, WIDTH // 2 - 70 + 100, "Play", "Options", "Controls", "Quit")
         pygame.display.update()
         
     pygame.quit()
